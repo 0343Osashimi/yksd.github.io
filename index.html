@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>じゃんけんチャレンジ！</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- トップ画面 -->
+    <div id="top-screen" class="screen active">
+        <div class="container">
+            <div class="character-container">
+                <div class="character bounce">🎮</div>
+            </div>
+            <h1 class="title">じゃんけん<br>チャレンジ！</h1>
+            <p class="subtitle">1日1回限定のチャンス！</p>
+            <button id="start-btn" class="btn btn-primary">スタート</button>
+            <p class="note">※勝つと素敵なプレゼントがもらえます</p>
+        </div>
+    </div>
+
+    <!-- 手選択画面 -->
+    <div id="select-screen" class="screen">
+        <div class="container">
+            <h2 class="screen-title">手を選んでください</h2>
+            <div class="hand-selection">
+                <button class="hand-btn" data-hand="rock">
+                    <span class="hand-icon">✊</span>
+                    <span class="hand-name">グー</span>
+                </button>
+                <button class="hand-btn" data-hand="scissors">
+                    <span class="hand-icon">✌️</span>
+                    <span class="hand-name">チョキ</span>
+                </button>
+                <button class="hand-btn" data-hand="paper">
+                    <span class="hand-icon">✋</span>
+                    <span class="hand-name">パー</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- じゃんけん中画面 -->
+    <div id="janken-screen" class="screen">
+        <div class="container">
+            <div class="janken-animation">
+                <div class="character shake">🎮</div>
+                <h2 class="janken-text">じゃんけん...</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="result-screen" class="screen">
+        <div class="container">
+            <div class="result-character-container">
+                <div id="result-character" class="character">🎮</div>
+            </div>
+            <h2 id="result-title" class="result-title"></h2>
+            <div class="hands-display">
+                <div class="hand-result">
+                    <p class="hand-label">あなた</p>
+                    <span id="player-hand" class="result-hand"></span>
+                </div>
+                <div class="vs">VS</div>
+                <div class="hand-result">
+                    <p class="hand-label">相手</p>
+                    <span id="cpu-hand" class="result-hand"></span>
+                </div>
+            </div>
+            <div id="win-message" class="win-message">
+                <p class="win-text">🎉 おめでとうございます！ 🎉</p>
+                <p class="win-instruction">この画面をスタッフに<br>見せてください</p>
+                <div class="current-time">
+                    <p class="time-label">獲得時刻</p>
+                    <p id="current-time" class="time-display"></p>
+                </div>
+            </div>
+            <div id="lose-message" class="lose-message">
+                <p class="lose-text">残念！また明日チャレンジしてね</p>
+            </div>
+            <div id="draw-message" class="draw-message">
+                <p class="draw-text">あいこです</p>
+            </div>
+            <button id="retry-btn" class="btn btn-secondary">もう一度</button>
+            <button id="back-btn" class="btn btn-tertiary">トップへ</button>
+        </div>
+    </div>
+
+    <!-- 制限画面 -->
+    <div id="limit-screen" class="screen">
+        <div class="container">
+            <div class="character-container">
+                <div class="character sad">😢</div>
+            </div>
+            <h2 class="limit-title">本日のチャレンジは<br>終了しました</h2>
+            <p class="limit-text">また明日お越しください！</p>
+            <div class="next-play-time">
+                <p id="next-play-time"></p>
+            </div>
+            <button id="back-from-limit-btn" class="btn btn-tertiary">トップへ</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
