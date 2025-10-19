@@ -1,0 +1,2 @@
+# yksd.github.io
+じゃんけんゲーム
