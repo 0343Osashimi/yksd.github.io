@@ -167,12 +167,21 @@ function showResult() {
         setInterval(updateCurrentTime, 1000);
         // プレイ記録を保存（勝利時のみ制限）
         savePlayRecord(true);
+        // 勝利時はボタンを非表示
+        retryBtn.style.display = 'none';
+        backBtn.style.display = 'none';
     } else if (gameResult === 'lose') {
         resultTitle.textContent = '😢 負け...';
         loseMessage.classList.add('active');
+        // 負けの場合はボタンを表示
+        retryBtn.style.display = 'inline-block';
+        backBtn.style.display = 'inline-block';
     } else {
         resultTitle.textContent = '🤝 あいこ！';
         drawMessage.classList.add('active');
+        // あいこの場合はボタンを表示
+        retryBtn.style.display = 'inline-block';
+        backBtn.style.display = 'inline-block';
     }
     
     switchScreen(jankenScreen, resultScreen);
