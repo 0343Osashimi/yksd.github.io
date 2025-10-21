@@ -151,6 +151,20 @@ body {
     animation: none;
 }
 
+/* ロゴ */
+.logo-container {
+    margin: 40px 0 20px;
+    text-align: center;
+}
+
+.company-logo {
+    max-width: 250px;
+    width: 80%;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    animation: fadeIn 0.8s ease;
+}
+
 /* トップ画面 */
 .title {
     font-size: 48px;
@@ -438,6 +452,10 @@ body {
 
 /* レスポンシブ対応 */
 @media (max-width: 480px) {
+    .company-logo {
+        max-width: 200px;
+    }
+    
     .title {
         font-size: 36px;
     }
