@@ -62,7 +62,7 @@ function checkPlayLimit() {
     const today = new Date().toDateString();
     
     // 今日既にプレイしているかチェック
-    if (savedData.lastPlayDate === today && savedData.hasWon === true) {
+    if (savedData.lastPlayDate === today && savedData.hasPlayed === true) {
         return false; // プレイ不可
     }
     
@@ -72,11 +72,11 @@ function checkPlayLimit() {
 // ========================================
 // プレイ記録を保存
 // ========================================
-function savePlayRecord(won) {
+function savePlayRecord() {
     const today = new Date().toDateString();
     const data = {
         lastPlayDate: today,
-        hasWon: won
+        hasPlayed: true
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
@@ -158,6 +158,9 @@ function showResult() {
     // キャラクターアニメーション適用
     applyRandomAnimation();
     
+    // すべての結果でプレイ記録を保存（1日1回制限）
+    savePlayRecord();
+    
     // 結果に応じて表示を切り替え
     if (gameResult === 'win') {
         resultTitle.textContent = '🎉 勝ち！ 🎉';
@@ -165,24 +168,17 @@ function showResult() {
         updateCurrentTime();
         // 1秒ごとに時刻を更新
         setInterval(updateCurrentTime, 1000);
-        // プレイ記録を保存（勝利時のみ制限）
-        savePlayRecord(true);
-        // 勝利時はボタンを非表示
-        retryBtn.style.display = 'none';
-        backBtn.style.display = 'none';
     } else if (gameResult === 'lose') {
         resultTitle.textContent = '😢 負け...';
         loseMessage.classList.add('active');
-        // 負けの場合はボタンを表示
-        retryBtn.style.display = 'inline-block';
-        backBtn.style.display = 'inline-block';
     } else {
         resultTitle.textContent = '🤝 あいこ！';
         drawMessage.classList.add('active');
-        // あいこの場合はボタンを表示
-        retryBtn.style.display = 'inline-block';
-        backBtn.style.display = 'inline-block';
     }
+    
+    // すべての結果でボタンを非表示
+    retryBtn.style.display = 'none';
+    backBtn.style.display = 'none';
     
     switchScreen(jankenScreen, resultScreen);
 }
@@ -229,15 +225,9 @@ handBtns.forEach(btn => {
     });
 });
 
-// もう一度ボタン（あいこの場合のみ表示）
+// もう一度ボタン（使用しない）
 retryBtn.addEventListener('click', () => {
-    if (gameResult === 'draw') {
-        // あいこの場合はもう一度選択画面へ
-        switchScreen(resultScreen, selectScreen);
-    } else {
-        // 勝敗が決まった場合はトップへ
-        switchScreen(resultScreen, topScreen);
-    }
+    switchScreen(resultScreen, topScreen);
 });
 
 // トップへボタン
