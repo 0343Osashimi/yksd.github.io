@@ -1,9 +1,9 @@
 // ========================================
 // グローバル変数
 // ========================================
-let playerHand = null; // プレイヤーが選んだ手
-let cpuHand = null; // CPUの手
-let gameResult = null; // ゲーム結果（win/lose/draw）
+let playerHand = null;
+let cpuHand = null;
+let gameResult = null;
 
 // ========================================
 // DOM要素の取得
@@ -16,8 +16,6 @@ const limitScreen = document.getElementById('limit-screen');
 
 const startBtn = document.getElementById('start-btn');
 const handBtns = document.querySelectorAll('.hand-btn');
-const retryBtn = document.getElementById('retry-btn');
-const backBtn = document.getElementById('back-btn');
 const backFromLimitBtn = document.getElementById('back-from-limit-btn');
 
 const playerHandDisplay = document.getElementById('player-hand');
@@ -30,6 +28,10 @@ const resultCharacter = document.getElementById('result-character');
 const winMessage = document.getElementById('win-message');
 const loseMessage = document.getElementById('lose-message');
 const drawMessage = document.getElementById('draw-message');
+
+// 求人情報関連
+const jobInfoBtn = document.getElementById('job-info-btn');
+const jobInfoSection = document.getElementById('job-info-section');
 
 // ========================================
 // ローカルストレージキー
@@ -61,12 +63,11 @@ function checkPlayLimit() {
     const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
     const today = new Date().toDateString();
     
-    // 今日既にプレイしているかチェック
     if (savedData.lastPlayDate === today && savedData.hasPlayed === true) {
-        return false; // プレイ不可
+        return false;
     }
     
-    return true; // プレイ可能
+    return true;
 }
 
 // ========================================
@@ -88,9 +89,6 @@ function showNextPlayTime() {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     tomorrow.setHours(0, 0, 0, 0);
-    
-    const hours = tomorrow.getHours().toString().padStart(2, '0');
-    const minutes = tomorrow.getMinutes().toString().padStart(2, '0');
     
     nextPlayTimeDisplay.textContent = `次回チャレンジは明日0時以降に可能です`;
 }
@@ -154,31 +152,34 @@ function showResult() {
     winMessage.classList.remove('active');
     loseMessage.classList.remove('active');
     drawMessage.classList.remove('active');
+    jobInfoBtn.classList.remove('show');
+    jobInfoSection.classList.remove('active');
     
     // キャラクターアニメーション適用
     applyRandomAnimation();
     
-    // すべての結果でプレイ記録を保存（1日1回制限）
+    // プレイ記録を保存（1日1回制限）
     savePlayRecord();
     
     // 結果に応じて表示を切り替え
     if (gameResult === 'win') {
+        // 勝ち：プレゼント画面 + 求人情報ボタンを表示
         resultTitle.textContent = '🎉 勝ち！ 🎉';
         winMessage.classList.add('active');
         updateCurrentTime();
-        // 1秒ごとに時刻を更新
         setInterval(updateCurrentTime, 1000);
+        jobInfoBtn.classList.add('show');
     } else if (gameResult === 'lose') {
+        // 負け：求人情報ボタンを表示
         resultTitle.textContent = '😢 負け...';
         loseMessage.classList.add('active');
+        jobInfoBtn.classList.add('show');
     } else {
+        // あいこ：求人情報ボタンを表示
         resultTitle.textContent = '🤝 あいこ！';
         drawMessage.classList.add('active');
+        jobInfoBtn.classList.add('show');
     }
-    
-    // すべての結果でボタンを非表示
-    retryBtn.style.display = 'none';
-    backBtn.style.display = 'none';
     
     switchScreen(jankenScreen, resultScreen);
 }
@@ -202,12 +203,29 @@ function playJanken() {
 }
 
 // ========================================
+// 求人情報アコーディオンのトグル
+// ========================================
+function toggleJobInfo() {
+    jobInfoSection.classList.toggle('active');
+    
+    // ボタンテキストを変更
+    if (jobInfoSection.classList.contains('active')) {
+        jobInfoBtn.textContent = '✕ 閉じる';
+        // スムーズにスクロール
+        setTimeout(() => {
+            jobInfoSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    } else {
+        jobInfoBtn.textContent = '💼 急募！薬剤師求人を見る';
+    }
+}
+
+// ========================================
 // イベントリスナー設定
 // ========================================
 
 // スタートボタン
 startBtn.addEventListener('click', () => {
-    // プレイ制限チェック
     if (!checkPlayLimit()) {
         showNextPlayTime();
         switchScreen(topScreen, limitScreen);
@@ -225,26 +243,19 @@ handBtns.forEach(btn => {
     });
 });
 
-// もう一度ボタン（使用しない）
-retryBtn.addEventListener('click', () => {
-    switchScreen(resultScreen, topScreen);
-});
-
-// トップへボタン
-backBtn.addEventListener('click', () => {
-    switchScreen(resultScreen, topScreen);
-});
-
 // 制限画面からトップへボタン
 backFromLimitBtn.addEventListener('click', () => {
     switchScreen(limitScreen, topScreen);
 });
 
+// 求人情報ボタン
+jobInfoBtn.addEventListener('click', toggleJobInfo);
+
 // ========================================
 // 初期化処理
 // ========================================
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('じゃんけんゲームを読み込みました');
+    console.log('じゃんけんゲームを読み込みました（求人情報機能付き）');
     
     // デバッグ用：ストレージをクリア（開発時のみ使用）
     // localStorage.removeItem(STORAGE_KEY);
