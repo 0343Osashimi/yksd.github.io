@@ -248,6 +248,37 @@ body {
     color: #667eea;
 }
 
+/* 求人ボタン */
+.btn-job {
+    background: linear-gradient(135deg, #ffd89b 0%, #ff6b6b 100%);
+    color: #fff;
+    font-size: 18px;
+    padding: 16px 40px;
+    margin-top: 20px;
+    animation: jobButtonPulse 2s ease-in-out infinite;
+    display: none;
+}
+
+.btn-job.show {
+    display: inline-block;
+}
+
+@keyframes jobButtonPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+    }
+}
+
+.btn-job:hover {
+    animation: none;
+    transform: scale(1.08);
+}
+
 /* 手選択画面 */
 .screen-title {
     font-size: 28px;
@@ -457,6 +488,104 @@ body {
     font-weight: bold;
 }
 
+/* 求人情報セクション（アコーディオン） */
+.job-info-section {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease, opacity 0.6s ease, margin 0.6s ease;
+    opacity: 0;
+    margin: 0;
+}
+
+.job-info-section.active {
+    max-height: 8000px;
+    opacity: 1;
+    margin: 30px 0;
+}
+
+.job-info-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.job-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.job-tables-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+.job-table-container {
+    overflow-x: auto;
+}
+
+.pharmacy-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 15px;
+    text-align: center;
+    padding: 12px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.job-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.job-table th,
+.job-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 13px;
+}
+
+.job-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: bold;
+    width: 35%;
+    white-space: nowrap;
+}
+
+.job-table td {
+    color: #333;
+    line-height: 1.7;
+}
+
+.job-table td small {
+    font-size: 11px;
+    color: #666;
+}
+
+.job-table tr:last-child th,
+.job-table tr:last-child td {
+    border-bottom: none;
+}
+
+.highlight {
+    color: #f5576c;
+    font-weight: bold;
+    font-size: 15px;
+}
+
 /* 制限画面 */
 .limit-title {
     font-size: 32px;
@@ -486,6 +615,16 @@ body {
 }
 
 /* レスポンシブ対応 */
+@media (min-width: 768px) {
+    .container {
+        max-width: 1000px;
+    }
+    
+    .job-tables-wrapper {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 @media (max-width: 480px) {
     .company-logo {
         max-width: 200px;
@@ -509,6 +648,21 @@ body {
     
     .result-hand {
         font-size: 50px;
+    }
+    
+    .job-table th,
+    .job-table td {
+        font-size: 11px;
+        padding: 8px 6px;
+    }
+    
+    .pharmacy-name {
+        font-size: 16px;
+        padding: 10px;
+    }
+    
+    .job-title {
+        font-size: 20px;
     }
 }
 
