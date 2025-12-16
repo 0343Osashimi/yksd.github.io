@@ -130,6 +130,15 @@ function updateCurrentTime() {
     currentTimeDisplay.textContent = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 }
 
+// ========================================
+// キャラクターにランダムアニメーションを適用
+// ========================================
+function applyRandomAnimation() {
+    const animations = ['random-move-1', 'random-move-2', 'random-move-3'];
+    const randomIndex = Math.floor(Math.random() * animations.length);
+    resultCharacter.className = 'character';
+    resultCharacter.classList.add(animations[randomIndex]);
+}
 
 // ========================================
 // 結果画面を表示
